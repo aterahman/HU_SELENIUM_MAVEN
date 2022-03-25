@@ -23,6 +23,8 @@ public class miniassignment4
         openurl();
         login();
         dropbox();
+        checkcart1();
+        leastexpensive();
 
     }
 
@@ -87,9 +89,10 @@ public class miniassignment4
             System.out.println("Not enabled");
         //clicking on remove
         remove.click();
-
+        
+        WebElement addtocar = getele("//*[@id=\"add-to-cart-sauce-labs-fleece-jacket\"]");
         //clicking on add to cart
-        addtocart.click();
+        addtocar.click();
     }
 
 
@@ -98,6 +101,25 @@ public class miniassignment4
     {
         WebElement e = driver.findElement(By.xpath(xp));
         return e;
+    }
+
+    //method that performs actions on cart for the first time
+    public static void checkcart1()
+    {
+        getele("//*[@id=\"shopping_cart_container\"]/a").click();
+        getele("//*[@id=\"continue-shopping\"]").click();
+
+    }
+
+    public static void leastexpensive()
+    {
+        WebElement db = getele("/html/body/div/div/div/div[1]/div[2]/div[2]/span/select");
+        Select select = new Select(db);
+        select.selectByValue("lohi");
+        getele("//*[@id=\"add-to-cart-sauce-labs-onesie\"]").click();
+
+        int cartcount = Integer.parseInt(getele("//*[@id=\"shopping_cart_container\"]/a/span").getText());
+        System.out.println(cartcount);
     }
 
 
