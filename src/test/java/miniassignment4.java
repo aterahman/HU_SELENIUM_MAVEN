@@ -3,11 +3,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 
 public class miniassignment4
@@ -20,6 +22,8 @@ public class miniassignment4
         driver = new ChromeDriver();
         openurl();
         login();
+        dropbox();
+
     }
 
     //opening url
@@ -56,13 +60,36 @@ public class miniassignment4
         return detail;
     }
 
-    //method to find most expensive product
-    public static void dropbox()
+    //method to work on most expensive product
+    public static void dropbox()throws InterruptedException
     {
-        WebElement db = getele("//select[@class='product_sort_container']");
-        Select s = new Select(db);
-        s.selectByIndex(4);
+        WebElement db = getele("/html/body/div/div/div/div[1]/div[2]/div[2]/span/select");
+        Select select = new Select(db);
+        select.selectByValue("hilo");
+        WebElement addtocart = getele("//*[@id=\"add-to-cart-sauce-labs-fleece-jacket\"]");
 
+        //checking if add to cart is enabled
+       if(addtocart.isEnabled())
+           System.out.println("Enabled");
+       else
+           System.out.println("Not enabled");
+
+
+       //clicking on add to cart
+       addtocart.click();
+
+       WebElement remove  =getele("//*[@id=\"remove-sauce-labs-fleece-jacket\"]");
+
+       //checking if remove is enabled
+        if(remove.isEnabled())
+            System.out.println("Enabled");
+        else
+            System.out.println("Not enabled");
+        //clicking on remove
+        remove.click();
+
+        //clicking on add to cart
+        addtocart.click();
     }
 
 
@@ -74,4 +101,9 @@ public class miniassignment4
     }
 
 
+    @AfterTest
+    public static void quitdriver()
+    {
+        driver.quit();
+    }
 }
